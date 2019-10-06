@@ -1,2 +1,2 @@
 # GetASoundURL
-Generates a unique URL to a S3 objecy
+Generates a unique URL to an S3 object.
