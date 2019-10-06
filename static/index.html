@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Music Link</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body>
+         <section id="cover">
+            <div id="cover-caption">
+                <div id="container" class="container">
+                    <div class="row text-black">
+                        <div class="col-sm-6 offset-sm-3 text-center">
+                            <div class="info-form">
+                                <div class="form-group">
+                                    
+                                    
+                                    <form method="POST" action="/handle" enctype="multipart/form-data" id='myForm' class="form-inlin justify-content-center" style="padding-top: 20%;">
+                                        <h1 class="display-4">Music Link</h1>
+                                        <input name="url" id="points" type="text" class="form-control" placeholder="Paste the sound file's URL here..."></input>
+                                        <h6 style="margin-top: 5%;">Want to upload an mp3 instead? Upload below:</h6>
+                                        
+                                        <input type="file" name="file" class="btn btn-dark" ></input><br>
+                                        <button type="submit" name="url" class="btn btn-danger btn-lg" style="margin-top: 5%;">Get Link!</button>
+                                    </form>
+                                    
+                                    
+                                 </div>
+                                 <p id="output" style="background-color: yellow;"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </section>
+    <script>
+        function formSubmit(event) {
+            var url = "/handle";
+            var request = new XMLHttpRequest();
+            request.open('POST', url, true);
+            request.onload = function() { 
+            // request successful
+            // we can use server response to our request now
+                console.log(request.responseText);
+                url = JSON.parse(request.responseText);
+                document.getElementById('output').innerHTML = url.url;
+            };
+
+            request.onerror = function() {
+            // request failed
+            };
+
+            request.send(new FormData(event.target)); // create FormData from form that triggered event
+            event.preventDefault();
+        }
+
+        document.getElementById('myForm').addEventListener("submit", formSubmit);
+    </script>
+    </body>
+</html>
