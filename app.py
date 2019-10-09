@@ -7,7 +7,6 @@ import uuid
 
 BUCKETNAME='sound-files-apcsp'
 app = Flask(__name__, static_url_path='/static')
-s3 = boto3.client('s3')
 
 @app.route('/handle', methods=['POST'])
 def handle():
@@ -25,6 +24,8 @@ def handle():
             
         extension = soundname.split('.')[-1]
         print(f"uploading file {soundname} to s3")
+        # get client for each PUT
+        s3 = boto3.client('s3')
         soundname = str(uuid.uuid4())+'.'+extension
         resp = s3.upload_fileobj(sound, BUCKETNAME, soundname, ExtraArgs={'ACL':'public-read'})
         url = f'https://{BUCKETNAME}.s3-us-west-1.amazonaws.com/{soundname}'
